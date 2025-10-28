@@ -73,7 +73,7 @@ public class AccountRepository {
             PreparedStatement statement = connection.prepareStatement(sql)){
             ResultSet resultSet = statement.executeQuery();
 
-            // Door alle rijjen lopen en Account-obkect maken
+            // Door alle rijjen lopen en Account-object maken
             while (resultSet.next()){
                 String username = resultSet.getString("username");
                 String password = resultSet.getString("password");
