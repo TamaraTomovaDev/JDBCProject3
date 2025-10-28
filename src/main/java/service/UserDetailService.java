@@ -8,63 +8,39 @@ import repository.UserDetailRepository;
 import java.util.List;
 
 public class UserDetailService {
-    private final UserDetailRepository userRepo;
-    private final AccountRepository accountRepo;
+    private final UserDetailRepository repo;
 
     // === CONSTRUCTOR ===
-    public UserDetailService(UserDetailRepository userRepo, AccountRepository accountRepo) {
-        this.userRepo = userRepo;
-        this.accountRepo = accountRepo;
+    public UserDetailService(UserDetailRepository repo) {
+        this.repo = repo;
     }
 
     // === CREATE ===
-    // Een nieuwe gebruiker + account aanmaken
-    public boolean registerUser(String username, String password, String firstName, String lastName, String email) {
-        Account existingAccount = accountRepo.getAccount(username);
-
-        if (existingAccount != null) {
-            // Account bestaat al → controleer wachtwoord
-            if (!existingAccount.getPassword().equals(password)) {
-                System.out.println("Fout: het wachtwoord is incorrect voor dit bestaande account.");
-                return false;
-            }
-        } else {
-            // Account bestaat nog niet → maak nieuw account aan
-            boolean accountCreated = accountRepo.addAccount(new Account(username, password));
-            if (!accountCreated) {
-                System.out.println("Fout bij het aanmaken van het account.");
-                return false;
-            }
-        }
-
-        // Maak en sla de gebruikersdetails op
-        UserDetail user = new UserDetail(lastName, firstName, email, new Account(username, password));
-        return userRepo.addUserDetail(user);
-    }
-
-    // === Overbelaste methode ===
-    public boolean addUserDetail(String lastName, String firstName, String email, String accountUsername) {
-        Account account = new Account(accountUsername, null);
-        UserDetail user = new UserDetail(lastName, firstName, email, account);
-        return userRepo.addUserDetail(user);
+    // Een nieuwe gebruiker toevoegen
+    public boolean createUserDetail(UserDetail userDetail) {
+        return repo.addUserDetail(userDetail);
     }
 
     // === READ ===
+    // Een gebruiker ophalen
     public UserDetail readUserDetail(String accountUsername) {
-        return userRepo.getUserDetail(accountUsername);
+        return repo.getUserDetail(accountUsername);
     }
 
+    // Alle gebruikers ophalen
     public List<UserDetail> readAllUserDetails() {
-        return userRepo.getAllUserDetails();
+        return repo.getAllUserDetails();
     }
 
     // === UPDATE ===
+    // Het e-mailadres van een gebruiker bijwerken
     public boolean updateEmail(String accountUsername, String newEmail) {
-        return userRepo.updateEmail(accountUsername, newEmail);
+        return repo.updateEmail(accountUsername, newEmail);
     }
 
     // === DELETE ===
+    // Een gebruiker verwijderen
     public boolean deleteUserDetail(String accountUsername) {
-        return userRepo.deleteUserDetail(accountUsername);
+        return repo.deleteUserDetail(accountUsername);
     }
 }
