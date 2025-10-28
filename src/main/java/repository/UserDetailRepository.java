@@ -91,21 +91,23 @@ public class UserDetailRepository {
 
     // === UPDATE ===
     // Het e-mailadres van een gebruiker bijwerken
-    public boolean updateEmail(String accountUsername, String newEmail) {
+    public boolean updateUserDetail(String accountUsername, String newFirstName, String newLastName, String newEmail) {
         // Controleer eerst of de gebruiker bestaat
         if (getUserDetail(accountUsername) == null) {
             System.out.println("Gebruiker niet gevonden.");
             return false;
         }
 
-        String sql = "UPDATE userdetail SET email = ? WHERE accountUsername = ?";
+        String sql = "UPDATE userdetail SET firstname = ?, lastname = ?, email = ? WHERE accountUsername = ?";
 
         try (Connection connection = MySqlConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             // De nieuwe waarden instellen in de query
-            statement.setString(1, newEmail);
-            statement.setString(2, accountUsername);
+            statement.setString(1, newFirstName);
+            statement.setString(2, newLastName);
+            statement.setString(3, newEmail);
+            statement.setString(4, accountUsername);
 
             // De UPDATE-query uitvoeren en controleren of er rijen zijn aangepast
             int rows = statement.executeUpdate();
