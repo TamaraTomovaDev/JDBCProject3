@@ -1,50 +1,47 @@
-
 package service;
 
 import model.Account;
+import model.UserDetail;
 import repository.AccountRepository;
+import repository.UserDetailRepository;
 
 import java.util.List;
 
-public class AccountService {
-    private final AccountRepository repo;
+public class UserDetailService {
+    private final UserDetailRepository repo;
 
     // === CONSTRUCTOR ===
-    public AccountService(AccountRepository repo) {
+    public UserDetailService(UserDetailRepository repo) {
         this.repo = repo;
     }
 
     // === CREATE ===
-    // Een nieuw account toevoegen
-    public boolean createAccount(Account account) {
-        return repo.addAccount(account);
+    // Een nieuwe gebruiker toevoegen
+    public boolean createUserDetail(UserDetail userDetail) {
+        return repo.addUserDetail(userDetail);
     }
 
-    // Een account toevoegen via username en password
-    public boolean addAccount(String username, String password) {
-        return repo.addAccount(new Account(username, password));
+    // === READ ===
+    // Een gebruiker ophalen
+    public UserDetail readUserDetail(String accountUsername) {
+        return repo.getUserDetail(accountUsername);
     }
 
-    // === READ ==
-    // Een account ophalen
-    public Account readAccount(String username) {
-        return repo.getAccount(username);
+    // Alle gebruikers ophalen
+    public List<UserDetail> readAllUserDetails() {
+        return repo.getAllUserDetails();
     }
 
-    // Alle accounts ophalen
-    public List<Account> readAllAccounts() {
-        return repo.getAllAccounts();
+    // === UPDATE ===
+    // Het e-mailadres van een gebruiker bijwerken
+    public boolean updateUserDetail(String username, String firstName, String lastName, String email) {
+        return repo.updateUserDetail(username, firstName, lastName, email);
     }
 
-    // === UPDATE ==
-    // Het wachtwoord van een account bijwerken
-    public boolean updateAccount(String oldUsername, String newUsername, String newPassword) {
-        return repo.updateAccount(oldUsername, newUsername, newPassword);
-    }
 
     // === DELETE ===
-    // Een account verwijderen
-    public boolean delete(String username) {
-        return repo.deleteAccount(username);
+    // Een gebruiker verwijderen
+    public boolean deleteUserDetail(String accountUsername) {
+        return repo.deleteUserDetail(accountUsername);
     }
 }
