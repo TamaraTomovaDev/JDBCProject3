@@ -87,27 +87,26 @@ public class AccountRepository {
 
     // === UPDATE ===
     // Het wachtwoord van een account bijwerken
-    public boolean updatePassword(String username, String newPassword) {
+    public boolean updateAccount(String oldUsername, String newUsername, String newPassword) {
         // Controleer eerst of het account bestaat
-        if (getAccount(username) == null) {
+        if (getAccount(oldUsername) == null) {
             System.out.println("Account niet gevonden.");
             return false;
         }
 
-        String sql = "UPDATE account SET password = ? WHERE username = ?";
+        String sql = "UPDATE account SET username = ?, password = ? WHERE username = ?";
         try (Connection connection = MySqlConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            // De niuewe waarden instellen in query
-            statement.setString(1, newPassword);
-            statement.setString(2, username);
+            statement.setString(1, newUsername);
+            statement.setString(2, newPassword);
+            statement.setString(3, oldUsername);
 
-            // De UPDATE-query uitvoeren en controleren of er rijen zijn aangepast
             int rows = statement.executeUpdate();
             return rows > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Fout bij bijwerken van account: " + e.getMessage());
             return false;
         }
     }

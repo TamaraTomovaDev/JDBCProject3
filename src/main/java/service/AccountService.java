@@ -38,8 +38,8 @@ public class AccountService {
 
     // === UPDATE ==
     // Het wachtwoord van een account bijwerken
-    public boolean updatePassword(String username, String newPassword) {
-        return repo.updatePassword(username, newPassword);
+    public boolean updateAccount(String oldUsername, String newUsername, String newPassword) {
+        return repo.updateAccount(oldUsername, newUsername, newPassword);
     }
 
     // === DELETE ===

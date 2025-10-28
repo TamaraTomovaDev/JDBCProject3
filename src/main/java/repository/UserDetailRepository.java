@@ -41,11 +41,12 @@ public class UserDetailRepository {
 
         try (Connection connection = MySqlConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            // De gebruikersnaam instellen als parameter in de SELECT-query
             statement.setString(1, accountUsername);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
+                // Als er een resultaat is, haal de gegevens op en maak een UserDetail-object
                 String lastName = resultSet.getString("lastname");
                 String firstName = resultSet.getString("firstname");
                 String email = resultSet.getString("email");
@@ -56,12 +57,12 @@ public class UserDetailRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        // Als de gebruiker niet bestaat, geef null terug
         return null;
     }
 
     // === READ (alle gebruikers) ===
     // Alle gebruikers ophalen
-
     public List<UserDetail> getAllUserDetails() {
         String sql = "SELECT * FROM userdetail";
         List<UserDetail> users = new ArrayList<>();
@@ -71,6 +72,7 @@ public class UserDetailRepository {
 
             ResultSet resultSet = statement.executeQuery();
 
+            // Alle rijen doorlopen en UserDetail-objecten maken
             while (resultSet.next()) {
                 String lastName = resultSet.getString("lastname");
                 String firstName = resultSet.getString("firstname");
@@ -88,20 +90,26 @@ public class UserDetailRepository {
 
 
     // === UPDATE ===
-    public boolean updateEmail(String accountUsername, String newEmail) {
+    // Het e-mailadres van een gebruiker bijwerken
+    public boolean updateUserDetail(String accountUsername, String newFirstName, String newLastName, String newEmail) {
+        // Controleer eerst of de gebruiker bestaat
         if (getUserDetail(accountUsername) == null) {
             System.out.println("Gebruiker niet gevonden.");
             return false;
         }
 
-        String sql = "UPDATE userdetail SET email = ? WHERE accountUsername = ?";
+        String sql = "UPDATE userdetail SET firstname = ?, lastname = ?, email = ? WHERE accountUsername = ?";
 
         try (Connection connection = MySqlConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, newEmail);
-            statement.setString(2, accountUsername);
+            // De nieuwe waarden instellen in de query
+            statement.setString(1, newFirstName);
+            statement.setString(2, newLastName);
+            statement.setString(3, newEmail);
+            statement.setString(4, accountUsername);
 
+            // De UPDATE-query uitvoeren en controleren of er rijen zijn aangepast
             int rows = statement.executeUpdate();
             return rows > 0;
 
@@ -112,6 +120,7 @@ public class UserDetailRepository {
     }
 
     // === DELETE ===
+    // Een gebruiker verwijderen
     public boolean deleteUserDetail(String accountUsername) {
         if (getUserDetail(accountUsername) == null) {
             System.out.println("Gebruiker niet gevonden.");
@@ -123,7 +132,10 @@ public class UserDetailRepository {
         try (Connection connection = MySqlConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
+            // De gebruikersnaam instellen als parameter in de DELETE-query
             statement.setString(1, accountUsername);
+
+            // De DELETE-query uitvoeren en controleren of er rijen zijn verwijderd
             int rows = statement.executeUpdate();
             return rows > 0;
 

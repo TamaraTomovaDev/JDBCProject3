@@ -12,5 +12,5 @@ CREATE TABLE userdetail(
     lastname VARCHAR(50),
     email VARCHAR(100),
     accountUsername VARCHAR(50),
-    FOREIGN KEY (accountUsername) REFERENCES account(username)
+    FOREIGN KEY (accountUsername) REFERENCES account(username) ON DELETE CASCADE
 );
