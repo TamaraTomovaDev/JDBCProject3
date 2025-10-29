@@ -1,4 +1,4 @@
-## ❓ Reflectievragen
+## Reflectievragen
 
 ### 1. Waarom gebruiken we PreparedStatement in plaats van Statement?
 PreparedStatement is veiliger en efficiënter dan Statement omdat:

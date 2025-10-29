@@ -52,9 +52,9 @@ public class MainApp {
                                 String password = scanner.nextLine();
 
                                 if (accountService.addAccount(username, password)) {
-                                    System.out.println("✅ Account succesvol toegevoegd!");
+                                    System.out.println("Account succesvol toegevoegd!");
                                 } else {
-                                    System.out.println("⚠️ Account bestaat al of fout bij toevoegen.");
+                                    System.out.println("Account bestaat al of fout bij toevoegen.");
                                 }
                             }
 
@@ -76,7 +76,7 @@ public class MainApp {
                             }
 
                             case 4 -> {
-                                System.out.println("⚠️ Let op: bij het verwijderen van een account worden ook gekoppelde gebruikersdetails verwijderd.");
+                                System.out.println("Let op: bij het verwijderen van een account worden ook gekoppelde gebruikersdetails verwijderd.");
                                 System.out.print("Voer gebruikersnaam in om te verwijderen: ");
                                 String username = scanner.nextLine();
                                 if (accountService.delete(username)) {
@@ -135,9 +135,9 @@ public class MainApp {
 
                                 UserDetail user = new UserDetail(lastName, firstName, email, new Account(username, ""));
                                 if (userDetailService.createUserDetail(user)) {
-                                    System.out.println("✅ Gebruikersdetail succesvol toegevoegd!");
+                                    System.out.println("Gebruikersdetail succesvol toegevoegd!");
                                 } else {
-                                    System.out.println("⚠️ Fout bij toevoegen van gebruikersdetail (controleer of account bestaat).");
+                                    System.out.println("Fout bij toevoegen van gebruikersdetail (controleer of account bestaat).");
                                 }
                             }
 
@@ -169,9 +169,9 @@ public class MainApp {
                                 String newEmail = scanner.nextLine();
 
                                 if (userDetailService.updateUserDetail(username, newFirstName, newLastName, newEmail)) {
-                                    System.out.println("✅ Gebruikersdetail succesvol bijgewerkt!");
+                                    System.out.println("Gebruikersdetail succesvol bijgewerkt!");
                                 } else {
-                                    System.out.println("⚠️ Bijwerken mislukt. Controleer of de gebruikersnaam bestaat.");
+                                    System.out.println("Bijwerken mislukt. Controleer of de gebruikersnaam bestaat.");
                                 }
                             }
                             case 5 -> {
@@ -189,16 +189,13 @@ public class MainApp {
                         }
                     }
                 }
-
                 case 3 -> {
-                    System.out.println("Programma afgesloten. 👋");
+                    System.out.println("Programma afgesloten.");
                     running = false;
                 }
-
                 default -> System.out.println("Ongeldige keuze, probeer opnieuw.");
             }
         }
-
         scanner.close();
     }
 }
